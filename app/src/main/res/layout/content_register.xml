@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".loginactivity"
-    tools:showIn="@layout/activity_login">
+    tools:context=".registeractivity"
+    tools:showIn="@layout/activity_register">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,8 +22,18 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.498">
+
+        <EditText
+            android:id="@+id/editTextFullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:hint="Enter your Full Name"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editTextEmail"
@@ -41,6 +51,22 @@
             android:hint="Enter your Password"
             android:inputType="textPassword" />
 
+        <EditText
+            android:id="@+id/editTextPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:hint="Enter your Phone Number"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/editTextAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:hint="Enter your Phone Number"
+            android:inputType="phone" />
+
         <Button
             android:id="@+id/buttonRegister"
             android:layout_width="match_parent"
@@ -51,7 +77,9 @@
         <TextView
             android:id="@+id/textViewSign"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Have an account with us? Sign in here"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
 
     </LinearLayout>
 
