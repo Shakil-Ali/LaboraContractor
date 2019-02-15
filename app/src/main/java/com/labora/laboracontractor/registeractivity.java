@@ -17,9 +17,9 @@ public class registeractivity extends AppCompatActivity implements View.OnClickL
     private EditText editTextEmail;
     private EditText editTextPassword;
 
+    private FirebaseAuth firebaseAuth;
     private ProgressDialog ProgressDialog;
 
-    private FirebaseAuth firebaseAuth;
 
 
     @Override
