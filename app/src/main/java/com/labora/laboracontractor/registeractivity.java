@@ -8,8 +8,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class registeractivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -17,9 +21,10 @@ public class registeractivity extends AppCompatActivity implements View.OnClickL
     private EditText editTextEmail;
     private EditText editTextPassword;
 
-    private FirebaseAuth firebaseAuth;
+
     private ProgressDialog ProgressDialog;
 
+    private FirebaseAuth firebaseAuth;
 
 
     @Override
