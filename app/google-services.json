@@ -15,6 +15,50 @@
       },
       "oauth_client": [
         {
+          "client_id": "228587952232-sveras99qg5g5tjch9ai3ipado5v56pq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.labora.laboracontractor",
+            "certificate_hash": "81414304f26d379be35014aca0a1141f44784a70"
+          }
+        },
+        {
+          "client_id": "228587952232-sabq7orl5sptdcg4ifh9064tcgo93cmi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSA6zYMT47RLa3bVLGrAwshyXV6EqXo04"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "228587952232-sabq7orl5sptdcg4ifh9064tcgo93cmi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228587952232:android:7065c5cf1014d6b3",
+        "android_client_info": {
+          "package_name": "com.labora.laboraservicerequester"
+        }
+      },
+      "oauth_client": [
+        {
           "client_id": "228587952232-sabq7orl5sptdcg4ifh9064tcgo93cmi.apps.googleusercontent.com",
           "client_type": 3
         }
