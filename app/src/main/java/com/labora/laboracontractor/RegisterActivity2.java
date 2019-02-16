@@ -3,7 +3,7 @@ package com.labora.laboracontractor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class registeractivity2 extends AppCompatActivity {
+public class RegisterActivity2 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,9 @@
+//With help of https://www.youtube.com/watch?v=tJVBXCNtUuk&t=2s - Simplified Coding with the code
+
 package com.labora.laboracontractor;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -15,42 +18,45 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class registeractivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button buttonRegister;
+    private Button buttonSignIn;
     private EditText editTextEmail;
     private EditText editTextPassword;
-
-
-    private ProgressDialog ProgressDialog;
+    private Button buttonSignUp;
 
     private FirebaseAuth firebaseAuth;
-
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_loginactivity);
 
-        // Initialise firebaseauth
+
+        //Initalise firebase
         firebaseAuth = FirebaseAuth.getInstance();
 
-        // Initialise progressDialog object
-        ProgressDialog = new ProgressDialog(this);
+        if(firebaseAuth.getCurrentUser() != null){
+            //profile activity
 
-        // Initialise register button
-        buttonRegister = (Button) findViewById(R.id.buttonRegister);
+        }
 
-        // Set variable values
+        //Initalise the objects
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        buttonSignUp = (Button) findViewById(R.id.buttonSignUp);
+        buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
 
-        // Set onClick listeners
-        buttonRegister.setOnClickListener(this);
+        progressDialog = new ProgressDialog(this);
+
+        buttonSignIn.setOnClickListener(this);
+        buttonSignUp.setOnClickListener(this);
+
+
     }
 
-    private void registerUser() {
-        // Create strings for email and password
+    private void userLogin(){
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
@@ -70,25 +76,24 @@ public class registeractivity extends AppCompatActivity implements View.OnClickL
 
         }
 
-        ProgressDialog.setMessage("Registering email and password...");
-        ProgressDialog.show();
+        progressDialog.setMessage("Signing in...");
+        progressDialog.show();
 
-        // Registering user to database
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
+
+        firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task)
                     {
+                        progressDialog.dismiss();
+
                         if(task.isSuccessful())
                         {
-                            // User succesfully registers and logged in
-                            // will start profile activity here
-                            // Temp toast
-                            Toast.makeText(registeractivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
+                            finish();
+                            startActivity(new Intent(getApplicationContext(),  MenuActivity.class));
+
                         }
-                        else {
-                            Toast.makeText(registeractivity.this, "Failed to register. Please try again", Toast.LENGTH_SHORT).show();
-                        }
+
                     }
                 });
 
@@ -96,17 +101,14 @@ public class registeractivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
-    public void onClick (View view){
-
-        if(view == buttonRegister) {
-            registerUser();
+    public void onClick(View view) {
+        if(view == buttonSignIn){
+            userLogin();
         }
 
-
-
-
+        if(view == buttonSignUp){
+            finish();
+            startActivity(new Intent(this, RegisterActivity.class));
+        }
     }
-
-
-
 }
