@@ -89,14 +89,11 @@ public class loginactivity extends AppCompatActivity implements View.OnClickList
 
                         if(task.isSuccessful())
                         {
-                            // User succesfully registers and logged in
-                            // will start profile activity here
-                            // Temp toast
-                            Toast.makeText(registeractivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
+                            finish();
+                            startActivity(new Intent(getApplicationContext(),  menuactivity.class);
+
                         }
-                        else {
-                            Toast.makeText(registeractivity.this, "Failed to register. Please try again", Toast.LENGTH_SHORT).show();
-                        }
+
                     }
                 });
 
