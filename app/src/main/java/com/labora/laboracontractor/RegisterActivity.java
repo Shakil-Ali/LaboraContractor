@@ -1,10 +1,12 @@
 package com.labora.laboracontractor;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -84,10 +86,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             // User succesfully registers and logged in
                             // will start profile activity here
                             // Temp toast
+
                             Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
+                            finish();
+                            startActivity(new Intent(getApplicationContext(),  RegisterActivity2.class));
+
+
                         }
                         else {
                             Toast.makeText(RegisterActivity.this, "Failed to register. Please try again", Toast.LENGTH_SHORT).show();
+                            ProgressDialog.dismiss();
+
                         }
                     }
                 });
@@ -100,6 +109,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if(view == buttonRegister) {
             registerUser();
+
         }
 
 

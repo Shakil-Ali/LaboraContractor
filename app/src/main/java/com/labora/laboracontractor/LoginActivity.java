@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //Initalise firebase
         firebaseAuth = FirebaseAuth.getInstance();
 
+
         if(firebaseAuth.getCurrentUser() != null){
             //profile activity
 
@@ -90,6 +91,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if(task.isSuccessful())
                         {
                             finish();
+                            startActivity(new Intent(getApplicationContext(),  MenuActivity.class));
 
                         }
 
