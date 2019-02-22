@@ -10,12 +10,15 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Map;
+
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener{
 
     // Initialise variables
     private FirebaseAuth firebaseAuth;
     private TextView textViewUserEmail;
     private Button buttonLogout;
+    private Button buttonGoOnline;
 
 
     @Override
@@ -41,8 +44,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         textViewUserEmail.setText("Welcome " + user.getEmail());
 
         buttonLogout = (Button) findViewById(R.id.buttonLogout);
+        buttonGoOnline = (Button) findViewById(R.id.buttonGoOnline);
 
         buttonLogout.setOnClickListener(this);
+        buttonGoOnline.setOnClickListener(this);
 
     }
 
@@ -55,6 +60,13 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
+
+        if(view == buttonLogout)
+        {
+            finish();
+            startActivity(new Intent(this, MapActivity.class));
+        }
+
     }
 
 }
