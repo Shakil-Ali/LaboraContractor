@@ -1,74 +1,107 @@
 package com.labora.laboracontractor;
 
-import android.app.ProgressDialog;
-import android.arch.lifecycle.LifecycleRegistry;
-import android.arch.lifecycle.ViewModelStore;
-import android.content.res.Resources;
-import android.os.Handler;
-import android.support.v4.app.FragmentController;
-import android.support.v4.app.SupportActivity;
-import android.support.v4.util.SimpleArrayMap;
-import android.support.v4.util.SparseArrayCompat;
-import android.support.v7.app.AppCompatDelegate;
-import android.widget.Button;
-import android.widget.EditText;
+import android.app.Activity;
+import android.app.Instrumentation;
+import android.support.test.rule.ActivityTestRule;
+import android.view.View;
 
-import com.google.firebase.auth.FirebaseAuth;
-
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
-import static org.mockito.Mockito.*;
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.junit.Assert.*;
 
 public class LoginActivityTest {
-    @Mock
-    Button buttonSignIn;
-    @Mock
-    EditText editTextEmail;
-    @Mock
-    EditText editTextPassword;
-    @Mock
-    Button buttonSignUp;
-    @Mock
-    FirebaseAuth firebaseAuth;
-    @Mock
-    ProgressDialog progressDialog;
-    @Mock
-    AppCompatDelegate mDelegate;
-    @Mock
-    Resources mResources;
-    @Mock
-    Handler mHandler;
-    @Mock
-    FragmentController mFragments;
-    @Mock
-    ViewModelStore mViewModelStore;
-    @Mock
-    SparseArrayCompat<String> mPendingFragmentActivityResults;
-    @Mock
-    SimpleArrayMap<Class<? extends SupportActivity.ExtraData>, SupportActivity.ExtraData> mExtraDataMap;
-    @Mock
-    LifecycleRegistry mLifecycleRegistry;
-    @InjectMocks
-    LoginActivity loginActivity;
 
+
+    // Rule created, which will be required for this test
+    @Rule
+    public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<LoginActivity>(LoginActivity.class);
+
+    //Private variable of LoginActivity
+    private LoginActivity loginActivity = null;
+
+    // Monitor the Register activity
+    Instrumentation.ActivityMonitor monitorActivity = getInstrumentation().addMonitor(RegisterActivity.class.getName(), null, false);
+
+    // Monitor the Register activity
+    Instrumentation.ActivityMonitor monitorActivity2 = getInstrumentation().addMonitor(MenuActivity.class.getName(), null, false);
+
+    // Set up the function when launch starting
     @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
+    public void setUp() throws Exception
+    {
+
+        // Creating and initialising a private variable of type LoginActivity for use later in the tests
+        loginActivity = mActivityTestRule.getActivity();
+
+
+    }
+
+
+    @Test
+    public  void testLaunch()
+    {
+        // Attempt to launch the app and find the id of one of the components in LoginActivity
+        View view = loginActivity.findViewById(R.id.buttonSignUp);
+        // Check if launch is not null
+        assertNotNull(view);
+
+    }
+
+
+    @Test
+    public  void testOpenRegister()
+    {
+        // Check if it does not return null
+        assertNotNull(loginActivity.findViewById(R.id.buttonSignUp));
+
+        // Take the view with signup button id
+        onView(withId(R.id.buttonSignUp)).perform(click());
+
+        // Wait for monitor to be hit and then expires in 50000000 ms
+        Activity RegisterActivity = getInstrumentation().waitForMonitorWithTimeout(monitorActivity, 50000000);
+
+        // Check that the RegisterActivity  is not null
+        assertNotNull(RegisterActivity);
+
+        // Finish the opened activity
+        RegisterActivity.finish();
+
+
     }
 
     @Test
-    public void testOnCreate() throws Exception {
-        loginActivity.onCreate(null);
+    public  void testOpenMenu()
+    {
+        // Check if it does not return null
+        assertNotNull(loginActivity.findViewById(R.id.buttonSignIn));
+
+        // Take the view with signin button id
+        onView(withId(R.id.buttonSignIn)).perform(click());
+
+        // Wait for monitor to be hit and then expires in 50000000 ms
+        Activity MenuActivity = getInstrumentation().waitForMonitorWithTimeout(monitorActivity2, 50000000);
+
+        // Check that the menu activity is not null
+        assertNotNull(MenuActivity);
+
+        // Finish the opened activity
+        MenuActivity.finish();
+
     }
 
-    @Test
-    public void testOnClick() throws Exception {
-        loginActivity.onClick(null);
+
+    @After
+    public void tearDown() throws Exception
+    {
+        // Nullify the activity after it has/has not launched
+        mActivityTestRule = null;
+
     }
 }
-
-//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme

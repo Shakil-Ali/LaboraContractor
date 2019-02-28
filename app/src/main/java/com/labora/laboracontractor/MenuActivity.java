@@ -61,7 +61,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(this, LoginActivity.class));
         }
 
-        if(view == buttonLogout)
+        if(view == buttonGoOnline)
         {
             finish();
             startActivity(new Intent(this, MapActivity.class));
