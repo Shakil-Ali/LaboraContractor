@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -15,8 +17,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -25,11 +31,16 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.io.IOException;
 import java.util.List;
 
+import static android.support.customtabs.CustomTabsIntent.KEY_DESCRIPTION;
+import static androidx.browser.browseractions.BrowserActionsIntent.KEY_TITLE;
+
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     GoogleMap map;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore mFirestore;
+    private DocumentReference noteRef = mFirestore.collection("Users-Requester").document("Post Code");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +50,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         //Initalise firebaseAuth and firestore
         firebaseAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
+
 
         if(firebaseAuth.getCurrentUser() != null){
             //profile activity
@@ -50,23 +62,33 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         mapFragment.getMapAsync(this);
 
     }
-    public void getUserInformation() {
 
-        mFirestore.collection("Users-Requester")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    public void getUserInformation(View v) {
 
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
+        noteRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            String postcode = documentSnapshot.getString(KEY_TITLE);
+                            String description = documentSnapshot.getString(KEY_DESCRIPTION);
+
+                            //Map<String, Object> note = documentSnapshot.getData();
+
+                            textViewData.setText("Title: " + postcode + "\n" + "Description: " + description);
                         } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
+                            Toast.makeText(MapActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
                         }
                     }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MapActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, e.toString());
+                    }
                 });
-        
+
     }
 
 
@@ -102,6 +124,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -113,5 +136,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         map.moveCamera(CameraUpdateFactory.newLatLng(coords));
 
     }
+
+
 
 }
