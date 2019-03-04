@@ -39,7 +39,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     GoogleMap map;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore mFirestore;
-    private DocumentReference noteRef = mFirestore.collection("Users-Requester").document("Post Code");
     private static final String TAG = "MapActivity";
 
 
@@ -64,33 +63,33 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     }
 
-    public void getUserInformation(View v) {
-
-        noteRef.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            String postcode = documentSnapshot.getString(KEY_TITLE);
-                            String description = documentSnapshot.getString(KEY_DESCRIPTION);
-
-                            //Map<String, Object> note = documentSnapshot.getData();
-
-//                            textViewData.setText("Title: " + postcode + "\n" + "Description: " + description);
-                        } else {
-                            Toast.makeText(MapActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MapActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, e.toString());
-                    }
-                });
-
-    }
+//    public void getUserInformation(View v) {
+//
+//        noteRef.get()
+//                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                        if (documentSnapshot.exists()) {
+//                            String postcode = documentSnapshot.getString(KEY_TITLE);
+//                            String description = documentSnapshot.getString(KEY_DESCRIPTION);
+//
+//                            //Map<String, Object> note = documentSnapshot.getData();
+//
+////                            textViewData.setText("Title: " + postcode + "\n" + "Description: " + description);
+//                        } else {
+//                            Toast.makeText(MapActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(MapActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+//                        Log.d(TAG, e.toString());
+//                    }
+//                });
+//
+//    }
 
 
     public GeoPoint getLocationFromAddress(String strAddress) {

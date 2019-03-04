@@ -83,6 +83,8 @@ public class RegisterActivity2 extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        startActivity(new Intent(getApplicationContext(),  MenuActivity.class));
+
                     }
                 })
 
@@ -99,6 +101,7 @@ public class RegisterActivity2 extends AppCompatActivity implements View.OnClick
         if(view == buttonRegister){
 
             registerUser();
+
 
         }
     }
