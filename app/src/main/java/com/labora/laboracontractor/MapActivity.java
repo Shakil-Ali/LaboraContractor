@@ -40,6 +40,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore mFirestore;
     private DocumentReference noteRef = mFirestore.collection("Users-Requester").document("Post Code");
+    private static final String TAG = "MapActivity";
 
 
     @Override
@@ -75,7 +76,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
                             //Map<String, Object> note = documentSnapshot.getData();
 
-                            textViewData.setText("Title: " + postcode + "\n" + "Description: " + description);
+//                            textViewData.setText("Title: " + postcode + "\n" + "Description: " + description);
                         } else {
                             Toast.makeText(MapActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
                         }
