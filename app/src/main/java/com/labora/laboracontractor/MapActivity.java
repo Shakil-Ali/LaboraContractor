@@ -1,5 +1,6 @@
 package com.labora.laboracontractor;
 
+import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -63,67 +65,75 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     }
 
-//    public void getUserInformation(View v) {
+
+//    public GeoPoint getLocationFromAddress() {
 //
-//        noteRef.get()
-//                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                        if (documentSnapshot.exists()) {
-//                            String postcode = documentSnapshot.getString(KEY_TITLE);
-//                            String description = documentSnapshot.getString(KEY_DESCRIPTION);
+//        DocumentReference strAddress = FirebaseFirestore.getInstance().collection("Summary-ServiceRequester").document("Post Code");
 //
-//                            //Map<String, Object> note = documentSnapshot.getData();
+//        Geocoder coder = new Geocoder(this);
+//        List<Address> address;
+//        GeoPoint p1 = null;
 //
-////                            textViewData.setText("Title: " + postcode + "\n" + "Description: " + description);
-//                        } else {
-//                            Toast.makeText(MapActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(MapActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-//                        Log.d(TAG, e.toString());
-//                    }
-//                });
+//        try {
+//            address = (List<Address>) coder.getFromLocationName(String.valueOf(strAddress),5);
+//            if(address==null){
+//                return null;
+//            }
+//
+//            Address location =address.get(0);
+//            location.getLatitude();
+//            location.getLongitude();
+//
+//            System.out.println();
+//            p1 = new GeoPoint((double) (location.getLatitude() * 1E6),(double) (location.getLongitude() * 1E6));
+//
+//            return p1;
+//
+//
+//        }
+//
+//        catch (IOException e)
+//        {
+//            e.printStackTrace();
+//            return null;
+//        }
 //
 //    }
 
+    public LatLng getLocationFromAddress(Context context, String inputtedAddress) {
 
-    public GeoPoint getLocationFromAddress(String strAddress) {
+        DocumentReference strAddress = FirebaseFirestore.getInstance().collection("Summary-ServiceRequester").document("Post Code");
 
-        Geocoder coder = new Geocoder(this);
+        Geocoder coder = new Geocoder(context);
         List<Address> address;
-        GeoPoint p1 = null;
+        LatLng resLatLng = null;
 
         try {
-            address = coder.getFromLocationName(strAddress,5);
-            if(address==null){
+            // May throw an IOException
+            address = coder.getFromLocationName(String.valueOf(strAddress), 5);
+            System.out.print(address);
+            if (address == null) {
                 return null;
             }
 
-            Address location =address.get(0);
+            if (address.size() == 0) {
+                return null;
+            }
+
+            Address location = address.get(0);
             location.getLatitude();
             location.getLongitude();
 
-            p1 = new GeoPoint((double) (location.getLatitude() * 1E6),(double) (location.getLongitude() * 1E6));
+            resLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-            return p1;
+        } catch (IOException ex) {
 
-
+            ex.printStackTrace();
+            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
         }
 
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            return null;
-        }
-
+        return resLatLng;
     }
-
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
