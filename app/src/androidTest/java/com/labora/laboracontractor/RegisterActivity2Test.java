@@ -2,6 +2,7 @@ package com.labora.laboracontractor;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.view.View;
 
@@ -13,6 +14,8 @@ import org.junit.Test;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.*;
 
@@ -31,6 +34,12 @@ public class RegisterActivity2Test {
 
     // Monitor the menu activity
     Instrumentation.ActivityMonitor monitorActivity2 = getInstrumentation().addMonitor(MenuActivity.class.getName(), null, false);
+
+    private String nName = "Thomas";
+    private String nNumber = "0208528173818";
+    private String nOccupation = "Plumber";
+    private String nAd = "50 Billet Road, Romford";
+
 
     // Set up the function when launch starting
     @Before
@@ -58,6 +67,17 @@ public class RegisterActivity2Test {
     @Test
     public  void testOpenMenu()
     {
+
+        // Input some text in edit text
+        Espresso.onView(withId(R.id.editTextFullName)).perform(typeText(nName));
+        Espresso.onView(withId(R.id.editTextPhoneNumber)).perform(typeText(nNumber));
+        Espresso.onView(withId(R.id.editTextOccupancy)).perform(typeText(nOccupation));
+        Espresso.onView(withId(R.id.editTextAd)).perform(typeText(nAd));
+
+        // Close soft keyboard
+        Espresso.closeSoftKeyboard();
+        // Perform button click
+        Espresso.onView(withId(R.id.buttonRegister)).perform(click());
         // Check if it does not return null
         assertNotNull(registerActivity2.findViewById(R.id.buttonRegister));
 
@@ -75,6 +95,91 @@ public class RegisterActivity2Test {
 
 
     }
+
+    @Test
+    // Testing address field with empty post address
+    public void testAddressField()
+    {
+        // Input some text in edit text
+        Espresso.onView(withId(R.id.editTextFullName)).perform(typeText(nName));
+        Espresso.onView(withId(R.id.editTextPhoneNumber)).perform(typeText(nNumber));
+        Espresso.onView(withId(R.id.editTextOccupancy)).perform(typeText(nOccupation));
+        Espresso.onView(withId(R.id.editTextAd)).perform(typeText(""));
+
+
+        // Close soft keyboard
+        Espresso.closeSoftKeyboard();
+        // Perform button click
+        Espresso.onView(withId(R.id.buttonRegister)).perform(click());
+    }
+
+    @Test
+    // Testing occupancy field with empty occupancy
+    public void testOccupancyField()
+    {
+
+        // Input some text in edit text
+        Espresso.onView(withId(R.id.editTextFullName)).perform(typeText(nName));
+        Espresso.onView(withId(R.id.editTextPhoneNumber)).perform(typeText(nNumber));
+        Espresso.onView(withId(R.id.editTextOccupancy)).perform(typeText(""));
+        Espresso.onView(withId(R.id.editTextAd)).perform(typeText(nAd));
+
+        // Close soft keyboard
+        Espresso.closeSoftKeyboard();
+        // Perform button click
+        Espresso.onView(withId(R.id.buttonRegister)).perform(click());
+    }
+
+    @Test
+    // Testing phone number field with empty number
+    public void testPhoneField()
+    {
+        // Input some text in edit text
+        Espresso.onView(withId(R.id.editTextFullName)).perform(typeText(nName));
+        Espresso.onView(withId(R.id.editTextPhoneNumber)).perform(typeText(""));
+        Espresso.onView(withId(R.id.editTextOccupancy)).perform(typeText(nOccupation));
+        Espresso.onView(withId(R.id.editTextAd)).perform(typeText(nAd));
+
+        // Close soft keyboard
+        Espresso.closeSoftKeyboard();
+        // Perform button click
+        Espresso.onView(withId(R.id.buttonRegister)).perform(click());
+    }
+
+    @Test
+    // Testing name field with empty name
+    public void testNameField()
+    {
+        // Input some text in edit text
+        Espresso.onView(withId(R.id.editTextFullName)).perform(typeText(""));
+        Espresso.onView(withId(R.id.editTextPhoneNumber)).perform(typeText(nNumber));
+        Espresso.onView(withId(R.id.editTextOccupancy)).perform(typeText(nOccupation));
+        Espresso.onView(withId(R.id.editTextAd)).perform(typeText(nAd));
+
+        // Close soft keyboard
+        Espresso.closeSoftKeyboard();
+        // Perform button click
+        Espresso.onView(withId(R.id.buttonRegister)).perform(click());
+
+    }
+
+    @Test
+    // Testing user email
+    public void testUserInputScenario()
+    {
+        // Input some text in edit text
+        Espresso.onView(withId(R.id.editTextFullName)).perform(typeText(nName));
+        Espresso.onView(withId(R.id.editTextPhoneNumber)).perform(typeText(nNumber));
+        Espresso.onView(withId(R.id.editTextOccupancy)).perform(typeText(nOccupation));
+        Espresso.onView(withId(R.id.editTextAd)).perform(typeText(nAd));
+
+        // Close soft keyboard
+        Espresso.closeSoftKeyboard();
+        // Perform button click
+        Espresso.onView(withId(R.id.buttonRegister)).perform(click());
+
+    }
+
 
 //    @Test
 //    public  void testOpenMenu()

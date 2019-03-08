@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +28,7 @@ public class RegisterActivity2 extends AppCompatActivity implements View.OnClick
     private EditText editTextFullName;
     private EditText editTextPhoneNumber;
     private EditText editTextOccupancy;
-    private EditText editTextPostalAddress;
+    private EditText editTextAddress;
     private Button buttonRegister;
     private static final String TAG = "RegisterActivity2";
 
@@ -46,7 +47,7 @@ public class RegisterActivity2 extends AppCompatActivity implements View.OnClick
         editTextFullName = (EditText) findViewById(R.id.editTextFullName);
         editTextOccupancy = (EditText) findViewById(R.id.editTextOccupancy);
         editTextPhoneNumber = (EditText) findViewById(R.id.editTextPhoneNumber);
-        editTextPostalAddress = (EditText) findViewById(R.id.editTextPostalAddress);
+        editTextAddress = (EditText) findViewById(R.id.editTextAd);
         buttonRegister = (Button) findViewById(R.id.buttonRegister);
 
         //Initalise firebase
@@ -65,10 +66,45 @@ public class RegisterActivity2 extends AppCompatActivity implements View.OnClick
 
 
         String name = editTextFullName.getText().toString().trim();
-        String address = editTextPostalAddress.getText().toString().trim();
+        String address = editTextAddress.getText().toString().trim();
         String phone = editTextPhoneNumber.getText().toString().trim();
         String occupation = editTextOccupancy.getText().toString().trim();
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
+        // Check if name entered
+        if(TextUtils.isEmpty(name)){
+            //name is empty
+            Toast.makeText(this, "Please enter an name", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+
+        // Check if address is entered
+        if(TextUtils.isEmpty(address)){
+            //address is empty
+            Toast.makeText(this, "Please enter a valid address", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+
+        // Check if phone number is entered
+        if(TextUtils.isEmpty(phone)){
+            //phone number is empty
+            Toast.makeText(this, "Please enter a valid phone number", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+
+
+        // Check if occupation is entered
+        if(TextUtils.isEmpty(occupation)){
+            //occupation is empty
+            Toast.makeText(this, "Please enter occupation", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+
 
         Map<String, Object> user_contractor = new HashMap<>();
         user_contractor.put("fullname", name);

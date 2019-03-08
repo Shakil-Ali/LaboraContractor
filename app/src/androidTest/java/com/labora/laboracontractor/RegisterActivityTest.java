@@ -2,6 +2,7 @@ package com.labora.laboracontractor;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.view.View;
 
@@ -13,6 +14,7 @@ import org.junit.Test;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.*;
 
@@ -29,6 +31,9 @@ public class RegisterActivityTest {
     // Monitor the Register activity
     Instrumentation.ActivityMonitor monitorActivity = getInstrumentation().addMonitor(RegisterActivity2.class.getName(), null, false);
 
+    //email and password to be entered
+    private String nEmail = "test@labora.org";
+    private String nPassword = "123456";
 
     // Set up the function when launch starting
     @Before
@@ -68,6 +73,48 @@ public class RegisterActivityTest {
 
 
     }
+
+    @Test
+    // Testing username field with empty password
+    public void testUsernameEmptyPassword()
+    {
+        // Input some text in edit text
+        Espresso.onView(withId(R.id.editTextEmail)).perform(typeText(nEmail));
+        Espresso.onView(withId(R.id.editTextPassword)).perform(typeText(""));
+        // Close soft keyboard
+        Espresso.closeSoftKeyboard();
+        // Perform button click
+        Espresso.onView(withId(R.id.buttonSignIn)).perform(click());
+    }
+
+    @Test
+    // Testing password field with empty username
+    public void testPasswordEmptyUsername()
+    {
+        // Input some text in edit text
+        Espresso.onView(withId(R.id.editTextEmail)).perform(typeText(""));
+        Espresso.onView(withId(R.id.editTextPassword)).perform(typeText(nPassword));
+        // Close soft keyboard
+        Espresso.closeSoftKeyboard();
+        // Perform button click
+        Espresso.onView(withId(R.id.buttonSignIn)).perform(click());
+    }
+
+    @Test
+    // Testing user email
+    public void testUserInputScenario()
+    {
+        // Input some text in edit text
+        Espresso.onView(withId(R.id.editTextEmail)).perform(typeText(nEmail));
+        Espresso.onView(withId(R.id.editTextPassword)).perform(typeText(nPassword));
+        // Close soft keyboard
+        Espresso.closeSoftKeyboard();
+        // Perform button click
+        Espresso.onView(withId(R.id.buttonSignIn)).perform(click());
+    }
+
+
+
     @After
     public void tearDown() throws Exception {
         // Nullify the activity after it has/has not launched
