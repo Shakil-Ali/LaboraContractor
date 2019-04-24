@@ -45,11 +45,12 @@
                 android:inputType="textPassword" />
 
         <Button
-                android:id="@+id/buttonRegister"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:text="Continue Registration" />
+            android:id="@+id/buttonRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@color/colorPrimary"
+            android:text="Continue Registration" />
 
 
     </LinearLayout>

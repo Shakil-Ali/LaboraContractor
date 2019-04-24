@@ -25,6 +25,7 @@ import java.util.Map;
 
 public class RegisterActivity2 extends AppCompatActivity implements View.OnClickListener {
 
+    // Create and initialising ui features
     private EditText editTextFullName;
     private EditText editTextPhoneNumber;
     private EditText editTextOccupancy;
@@ -32,18 +33,21 @@ public class RegisterActivity2 extends AppCompatActivity implements View.OnClick
     private Button buttonRegister;
     private static final String TAG = "RegisterActivity2";
 
-    private DatabaseReference databaseReference;
+    // Creating database variables
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore mFirestore;
 
 
+    // On create method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registeractivity2);
 
+        //Getting firestore instance
         mFirestore = FirebaseFirestore.getInstance();
 
+        // Variables to store the data
         editTextFullName = (EditText) findViewById(R.id.editTextFullName);
         editTextOccupancy = (EditText) findViewById(R.id.editTextOccupancy);
         editTextPhoneNumber = (EditText) findViewById(R.id.editTextPhoneNumber);
@@ -54,17 +58,22 @@ public class RegisterActivity2 extends AppCompatActivity implements View.OnClick
         firebaseAuth = FirebaseAuth.getInstance();
 
 
+        // Conditional if statement - this gets the current users.
         if(firebaseAuth.getCurrentUser() != null){
             //profile activity
 
         }
+
+        // Check if register button clicked
         buttonRegister.setOnClickListener(this);
 
     }
 
+
+    // Register user function
     public void registerUser() {
 
-
+        // Variables initialisation and assignment
         String name = editTextFullName.getText().toString().trim();
         String address = editTextAddress.getText().toString().trim();
         String phone = editTextPhoneNumber.getText().toString().trim();
@@ -106,6 +115,7 @@ public class RegisterActivity2 extends AppCompatActivity implements View.OnClick
         }
 
 
+        // Create a map and store the details of the users
         Map<String, Object> user_contractor = new HashMap<>();
         user_contractor.put("fullname", name);
         user_contractor.put("address", address);
@@ -113,18 +123,20 @@ public class RegisterActivity2 extends AppCompatActivity implements View.OnClick
         user_contractor.put("occupation", occupation);
         user_contractor.put("userid", userId);
 
+        // Store the map values in the database
         mFirestore.collection("Users-Contractor")
                 .add(user_contractor)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        //Starts the menu activity
                         startActivity(new Intent(getApplicationContext(),  MenuActivity.class));
 
                     }
                 })
 
-
+                // will spit out an error if not there is an unexpected issue
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -133,9 +145,13 @@ public class RegisterActivity2 extends AppCompatActivity implements View.OnClick
                 });
     }
 
+    // On click method
     public void onClick(View view){
+
+        // Conditional if statement to check if register button is working
         if(view == buttonRegister){
 
+            // Call register user
             registerUser();
 
 

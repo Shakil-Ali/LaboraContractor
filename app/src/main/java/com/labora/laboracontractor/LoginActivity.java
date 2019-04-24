@@ -18,16 +18,24 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+
+// Public class login activity
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+    // Create all the UI features we will be using
     private Button buttonSignIn;
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button buttonSignUp;
 
+
+    // Create the database variables
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
 
+
+    // On create method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //Initalise firebase
         firebaseAuth = FirebaseAuth.getInstance();
 
-
+        // Conditional to check if current user exists for this activity
         if(firebaseAuth.getCurrentUser() != null){
             //profile activity
 
@@ -51,6 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         progressDialog = new ProgressDialog(this);
 
+        // Set on click listeners for both buttons
         buttonSignIn.setOnClickListener(this);
         buttonSignUp.setOnClickListener(this);
 
@@ -58,6 +67,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void userLogin(){
+
+        // Create strings to store username and password
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
@@ -77,10 +88,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         }
 
+        // Dialog to tell user they are being signed in
         progressDialog.setMessage("Signing in...");
         progressDialog.show();
 
-
+        // Checking username & password against database
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -88,12 +100,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     {
                         progressDialog.dismiss();
 
+                        // If their account details exits, log them in
                         if(task.isSuccessful())
                         {
+                            // Finish current activity
                             finish();
+                            //Start the next activity
                             startActivity(new Intent(getApplicationContext(),  MenuActivity.class));
 
                         }
+
+                        // Else they dont have an account
+                        else {
+                            // Toast to inform the user
+                            Toast.makeText(LoginActivity.this, "Please enter valid login credentials or register an account", Toast.LENGTH_SHORT).show();
+                        }
+
 
                     }
                 });
@@ -101,14 +123,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    // On click method
     @Override
     public void onClick(View view) {
+        // Conditional to check if sign in button clicked
         if(view == buttonSignIn){
+            //call login function
             userLogin();
         }
 
+        // Conditional to check if sign up button clicked
         if(view == buttonSignUp){
+            // Finish the current activity
             finish();
+            // Start and open the Register Activity
             startActivity(new Intent(this, RegisterActivity.class));
         }
     }

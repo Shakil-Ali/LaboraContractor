@@ -16,11 +16,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
     // Initialise variables
     private FirebaseAuth firebaseAuth;
-    private TextView textViewUserEmail;
     private Button buttonLogout;
     private Button buttonGoOnline;
 
-
+    //oncreate method
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -37,33 +36,43 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(this, LoginActivity.class));
         }
 
+        // Get current user
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        textViewUserEmail = (TextView) findViewById(R.id.textViewUserEmail);
 
-        textViewUserEmail.setText("Welcome " + user.getEmail());
 
+        // Buttons on page
         buttonLogout = (Button) findViewById(R.id.buttonLogout);
         buttonGoOnline = (Button) findViewById(R.id.buttonGoOnline);
 
+        // Setting onclick listeners for buttons on page
         buttonLogout.setOnClickListener(this);
         buttonGoOnline.setOnClickListener(this);
 
     }
 
+    //Onclick method
     @Override
     public void onClick(View view)
     {
         if(view == buttonLogout)
         {
+            // Sign out method from fire base database
             firebaseAuth.signOut();
+
+            //Ends current activity
             finish();
+
+            //Starts new activity
             startActivity(new Intent(this, LoginActivity.class));
         }
 
         if(view == buttonGoOnline)
         {
+            //Ends current activity
             finish();
+
+            //Starts new activity
             startActivity(new Intent(this, MapActivity.class));
         }
 

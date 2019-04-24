@@ -19,16 +19,16 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Create user interface features we will be using
     private Button buttonRegister;
     private EditText editTextEmail;
     private EditText editTextPassword;
 
-
+    // Create progress dialog and database variables
     private ProgressDialog ProgressDialog;
-
     private FirebaseAuth firebaseAuth;
 
-
+    // On created method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         // Check if email entered
         if(TextUtils.isEmpty(email)){
-            //email is empty
+            //Email is empty
             Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
             return;
 
@@ -66,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         // Check if password is entered
         if(TextUtils.isEmpty(password)){
-            //password is empty
+            //Password is empty
             Toast.makeText(this, "Please enter a valid password", Toast.LENGTH_SHORT).show();
             return;
 
@@ -93,8 +93,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
                         }
+
+                        // Else conditional
                         else {
+                            // Inform user with message
                             Toast.makeText(RegisterActivity.this, "Failed to register. Please try again", Toast.LENGTH_SHORT).show();
+                            // Dismiss the dialog box
                             ProgressDialog.dismiss();
 
                         }
@@ -104,10 +108,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    // On click method
     @Override
     public void onClick (View view){
 
+        // Conditional to check if register button clicked
         if(view == buttonRegister) {
+
+            // Calls register user function
             registerUser();
 
         }
